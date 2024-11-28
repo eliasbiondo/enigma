@@ -1,6 +1,5 @@
 import { usePlugboard } from "@/context/plugboard.context";
 import { Keyboard } from "@/lib/keyboard";
-import PlugboardConnectionGraph from "./PlugboardConnectionGraph";
 
 interface PlugboardKeyProps {
   letter: string;
@@ -45,9 +44,6 @@ export function Plugboard() {
           />
         ))}
       </div>
-      <PlugboardConnectionGraph />
-
-      <div></div>
     </div>
   );
 }
