@@ -1,9 +1,4 @@
-interface Reflector {
-  left: string[]
-  right: string[]
-}
-
-class Reflector implements Reflector {
+class Reflector {
   left: string[]
   right: string[]
 
