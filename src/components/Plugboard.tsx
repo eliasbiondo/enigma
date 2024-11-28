@@ -20,7 +20,7 @@ function PlugboardKey({ letter, color, onClick }: PlugboardKeyProps) {
 }
 
 export function Plugboard() {
-  const { connections, handlePlugboardClick } = usePlugboard();
+  const { plugboard, handlePlugboardClick } = usePlugboard();
 
   return (
     <div className="flex flex-col gap-y-6 items-center">
@@ -29,7 +29,7 @@ export function Plugboard() {
           <PlugboardKey
             key={letter}
             letter={letter}
-            color={connections[letter]}
+            color={plugboard.getColor(letter)}
             onClick={handlePlugboardClick}
           />
         ))}
@@ -39,7 +39,7 @@ export function Plugboard() {
           <PlugboardKey
             key={letter}
             letter={letter}
-            color={connections[letter]}
+            color={plugboard.getColor(letter)}
             onClick={handlePlugboardClick}
           />
         ))}

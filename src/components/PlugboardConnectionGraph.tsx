@@ -2,26 +2,21 @@
 import { usePlugboard } from "@/context/plugboard.context";
 
 export const PlugboardConnectionGraph = () => {
-  const { connections } = usePlugboard();
+  const { plugboard } = usePlugboard();
   const displayedConnections = new Set();
 
   return (
     <div>
-      {Object.entries(connections).map(([letter, connection]) => {
-        const pair = Object.entries(connections).find(
-          ([key, value]) => value === connection && key !== letter
-        );
-
-        if (pair) {
-          displayedConnections.add(connection);
+      {Object.entries(plugboard.connections).map(([letter, connection]) => {
+        if (!displayedConnections.has(connection)) {
+          displayedConnections.add(letter);
           return (
             <div key={letter} className="flex gap-2">
               <div>{letter}</div>
-              <div>{pair[0]}</div>
+              <div>{connection}</div>
             </div>
           );
         }
-
         return null;
       })}
     </div>
