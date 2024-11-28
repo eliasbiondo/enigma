@@ -1,32 +1,65 @@
-export class Rotor {
-    private left: string;
-    private right: string;
-    private notch: string;
-    private position: number;
+class Rotor {
+  ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  left: string[];
+  right: string[];
+  notch: string;
+  position: number;
 
-    constructor(left: string, right: string, notch: string, position: number ){
-        this.left = left;
-        this.position = position;
-        this.notch = notch;
-        this.right = right;
-    }
+  constructor(wiring: string, notch: string) {
+    this.left = this.ALPHABET.split("");
+    this.right = wiring.toUpperCase().split("");
+    this.notch = notch.toUpperCase();
+    this.position = 0;
+  }
 
-    public rotor(): void {
+  private charToIndex(c: string): number {
+    return this.ALPHABET.indexOf(c.toUpperCase());
+  }
 
-    }
-    public foward(): void {
+  private indexToChar(i: number): string {
+    return this.ALPHABET.charAt(i % 26);
+  }
 
+  forward(input: string | number): string {
+    let inputIndex: number;
+    if (typeof input === "string") {
+      inputIndex = this.charToIndex(input);
+    } else {
+      inputIndex = input;
     }
-    public backward(): void {
+    let shiftedIndex = (inputIndex + this.position) % 26;
+    let mappedChar = this.right[shiftedIndex];
+    let outputIndex = this.charToIndex(mappedChar);
+    outputIndex = (outputIndex - this.position + 26) % 26;
+    return this.indexToChar(outputIndex);
+  }
 
+  backward(input: string | number): string {
+    let inputIndex: number;
+    if (typeof input === "string") {
+      inputIndex = this.charToIndex(input);
+    } else {
+      inputIndex = input;
     }
-    public rotate(): void {
+    let shiftedIndex = (inputIndex + this.position) % 26;
+    let shiftedChar = this.ALPHABET[shiftedIndex];
+    let mappedIndex = this.right.findIndex((char) => char === shiftedChar);
+    let outputIndex = (mappedIndex - this.position + 26) % 26;
+    return this.indexToChar(outputIndex);
+  }
 
-    }
-    public rotate_to(): void {
+  rotate(): void {
+    this.position = (this.position + 1) % 26;
+  }
 
-    }
-    public reached_notch(): boolean {
-        return false;
-    }
+  rotate_to(position: number): void {
+    this.position = position % 26;
+  }
+
+  reached_notch(): boolean {
+    let currentLetter = this.indexToChar(this.position);
+    return currentLetter === this.notch;
+  }
 }
+
+export default Rotor;
