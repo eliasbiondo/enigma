@@ -6,13 +6,14 @@ export const PlugboardConnectionGraph = () => {
   const displayedConnections = new Set();
 
   return (
-    <div>
+    <div className="grid grid-cols-3 gap-4">
       {Object.entries(plugboard.connections).map(([letter, connection]) => {
         if (!displayedConnections.has(connection)) {
           displayedConnections.add(letter);
           return (
             <div key={letter} className="flex gap-2">
               <div>{letter}</div>
+              {"<->"}
               <div>{connection}</div>
             </div>
           );
