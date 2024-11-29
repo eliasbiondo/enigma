@@ -8,15 +8,11 @@ export class Plugboard {
 
     for (const pair of pairs) {
       const [a, b] = pair;
-      this.connections[a] = b;
-      this.connections[b] = a;
-      const color = this.hashColor(pair);
-      this.colors[a] = color;
-      this.colors[b] = color;
+      this.addConnection(a, b);
     }
   }
 
-  private hashColor(str: string): string {
+  public hashColor(str: string): string {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -63,6 +59,8 @@ export class Plugboard {
   }
 
   addConnection(a: string, b: string): void {
+    if (this.connections[a] || this.connections[b]) return; // Avoid overwriting existing connections
+
     this.connections[a] = b;
     this.connections[b] = a;
     const color = this.hashColor(a + b);

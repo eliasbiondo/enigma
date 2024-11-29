@@ -1,13 +1,14 @@
 "use client";
-import { usePlugboard } from "@/context/plugboard.context";
+import { useEnigma } from "@/context/enigma.context";
+import React from "react";
 
 export const PlugboardConnectionGraph = () => {
-  const { plugboard } = usePlugboard();
-  const displayedConnections = new Set();
+  const { plugboardConnections } = useEnigma();
+  const displayedConnections = new Set<string>();
 
   return (
     <div className="grid grid-cols-3 gap-4 min-w-60">
-      {Object.entries(plugboard.connections).map(([letter, connection]) => {
+      {Object.entries(plugboardConnections).map(([letter, connection]) => {
         if (!displayedConnections.has(connection)) {
           displayedConnections.add(letter);
           return (

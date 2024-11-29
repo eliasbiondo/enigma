@@ -1,78 +1,91 @@
-import Rotor from "./Rotor";
-import { Reflector } from "./Reflector";
 import { Plugboard } from "./Plugboard";
+import { Reflector } from "./Reflector";
+import { Rotor } from "./Rotor";
 
 class Enigma {
-  rotors: Rotor[];
-  reflector: Reflector;
-  plugboard: Plugboard;
+  private reflector: Reflector;
+  public rotors: Rotor[];
+  public plugboard: Plugboard;
 
   constructor(rotors: Rotor[], reflector: Reflector, plugboard: Plugboard) {
+    if (rotors.length !== 3) {
+      throw new Error("Enigma requires exactly 3 rotors.");
+    }
     this.rotors = rotors;
     this.reflector = reflector;
     this.plugboard = plugboard;
   }
 
-  processLetter(letter: string): string {
-    // Rotate the rotors appropriately
-    this.rotateRotors();
+  setRotorPositions(positions: number[]): void {
+    if (positions.length !== this.rotors.length) {
+      throw new Error("Positions array must match the number of rotors.");
+    }
+    positions.forEach((pos, index) => {
+      this.rotors[index].rotate_to(pos);
+    });
+  }
 
-    // Pass through the plugboard
-    let signal = this.plugboard.forward(letter.toUpperCase());
+  private stepRotors(): void {
+    const rotateNext = this.rotors[0].rotate();
 
-    // Pass through the rotors forward (right to left)
-    for (let i = this.rotors.length - 1; i >= 0; i--) {
-      signal = this.rotors[i].forward(signal);
+    if (rotateNext) {
+      const rotateNext2 = this.rotors[1].rotate();
+
+      if (rotateNext2) {
+        this.rotors[2].rotate();
+      }
+    }
+  }
+
+  encipherLetter(letter: string): string {
+    if (!/[A-Z]/.test(letter)) return letter;
+
+    let signal = this.plugboard.forward(letter);
+
+    for (const rotor of this.rotors) {
+      signal = rotor.forward(signal);
     }
 
-    // Reflect
     signal = this.reflector.reflect(signal);
 
-    // Pass back through the rotors backward (left to right)
-    for (let i = 0; i < this.rotors.length; i++) {
-      signal = this.rotors[i].backward(signal);
+    for (const rotor of [...this.rotors].reverse()) {
+      signal = rotor.backward(signal);
     }
 
-    // Pass back through the plugboard
     signal = this.plugboard.backward(signal);
 
     return signal;
   }
 
-  rotateRotors(): void {
-    const numRotors = this.rotors.length;
-
-    // Right rotor always rotates
-    const rightRotor = this.rotors[numRotors - 1];
-    const middleRotor = this.rotors[numRotors - 2];
-    const leftRotor = this.rotors[numRotors - 3];
-
-    const rightRotorAtNotchBefore = rightRotor.reached_notch();
-    rightRotor.rotate();
-    
-    if (numRotors >= 2) {
-      const middleRotorAtNotchBefore = middleRotor.reached_notch();
-      
-      if (rightRotorAtNotchBefore || middleRotorAtNotchBefore) {
-        middleRotor.rotate();
-      }
-      
-      if (numRotors >= 3 && middleRotorAtNotchBefore) {
-        this.rotors[numRotors - 3].rotate();
-      }
-    }
-    
-    console.log("rotor da direita:" + rightRotor.position)
-    console.log("rotor do meio:" + middleRotor.position);
-    console.log("rotor da esquerda:" + leftRotor.position);
-
-  }
-
-  setRotorPositions(positions: number[]): void {
-    for (let i = 0; i < positions.length; i++) {
-      this.rotors[i].rotate_to(positions[i]);
-    }
+  processMessage(message: string): string {
+    return message
+      .toUpperCase()
+      .split("")
+      .map((char) => {
+        this.stepRotors();
+        return this.encipherLetter(char);
+      })
+      .join("");
   }
 }
 
 export default Enigma;
+
+// const I   = new Rotor('EKMFLGDQVZNTOWYHXUSPAIBRCJ','Q')
+// const II  = new Rotor('AJDKSIRUXBLHWTMCQGZNPYFVOE', 'E')
+// const III = new Rotor('BDFHJLCPRTXVZNYEIWGAKMUSQO', 'V')
+// const IV  = new Rotor('ESOVPZJAYQUIRHXLNFTGKDCMWB', 'J')
+// const V  = new Rotor('VZBRGITYUPSDNHLXAWMJQOFECK', 'Z')
+
+
+// const B = new Reflector('YRUHQSLDPXNGOKMIEBFZCWVJAT')
+// const C = new Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
+// const pb = new Plugboard(['AR', 'GK', 'OX'])
+// const enigma = new Enigma(B, I, II, III, pb)
+// enigma.setRotors([1, 2, 3])
+// const original = 'TESTANDO'
+// let criptografado = ''
+
+// for (let c of original){
+//    criptografado += enigma.encipher(c)
+// }

@@ -8,7 +8,6 @@ export class Reflector {
   }
 
   reflect(letter: string): string {
-    console.log("entrou no refletor: " + letter)
     const inLeft = this.left.indexOf(letter) !== -1;
 
     if (inLeft) {

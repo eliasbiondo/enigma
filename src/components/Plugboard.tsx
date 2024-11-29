@@ -1,5 +1,6 @@
-import { usePlugboard } from "@/context/plugboard.context";
+import React from "react";
 import { Keyboard } from "@/lib/Keyboard";
+import { useEnigma } from "@/context/enigma.context";
 
 interface PlugboardKeyProps {
   letter: string;
@@ -20,7 +21,7 @@ function PlugboardKey({ letter, color, onClick }: PlugboardKeyProps) {
 }
 
 export function Plugboard() {
-  const { plugboard, handlePlugboardClick } = usePlugboard();
+  const { plugboardColors, handlePlugboardClick } = useEnigma();
 
   return (
     <div className="flex flex-col gap-y-6 items-center">
@@ -29,7 +30,7 @@ export function Plugboard() {
           <PlugboardKey
             key={letter}
             letter={letter}
-            color={plugboard.getColor(letter)}
+            color={plugboardColors[letter]}
             onClick={handlePlugboardClick}
           />
         ))}
@@ -39,7 +40,7 @@ export function Plugboard() {
           <PlugboardKey
             key={letter}
             letter={letter}
-            color={plugboard.getColor(letter)}
+            color={plugboardColors[letter]}
             onClick={handlePlugboardClick}
           />
         ))}

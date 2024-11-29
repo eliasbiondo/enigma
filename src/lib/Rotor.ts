@@ -1,4 +1,4 @@
-class Rotor {
+export class Rotor {
   ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   left: string[];
   right: string[];
@@ -52,7 +52,7 @@ class Rotor {
     this.position = (this.position + 1) % 26;
     const currentLetter = this.indexToChar(this.position);
     return currentLetter === this.notch;
-}
+  }
 
   rotate_to(position: number): void {
     this.position = position % 26;
@@ -61,6 +61,17 @@ class Rotor {
   reached_notch(): boolean {
     const currentLetter = this.indexToChar(this.position);
     return currentLetter === this.notch;
+  }
+
+  getLetters(): string[] {
+    const centerIndex = this.position;
+    const leftIndex = (centerIndex - 1 + 26) % 26;
+    const rightIndex = (centerIndex + 1) % 26;
+    return [
+      this.indexToChar(leftIndex),
+      this.indexToChar(centerIndex),
+      this.indexToChar(rightIndex),
+    ];
   }
 }
 
