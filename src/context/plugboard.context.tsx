@@ -21,7 +21,7 @@ export const usePlugboard = () => {
 
 export const PlugboardProvider = ({ children }: { children: ReactNode }) => {
   const [selected, setSelected] = useState<string | null>(null);
-  const [plugboard] = useState(() => new Plugboard([])); // Initialize with empty pairs
+  const [plugboard] = useState(() => new Plugboard([]));
 
   const handlePlugboardClick = (letter: string) => {
     if (selected === null) {
