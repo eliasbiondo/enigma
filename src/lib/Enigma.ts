@@ -1,71 +1,77 @@
-import { Plugboard } from "./plugboard";
 import Rotor from "./Rotor";
+import { Reflector } from "./Reflector";
+import { Plugboard } from "./Plugboard";
 
 class Enigma {
-  private rotors: Rotor[];
-  private plugboard: Plugboard;
-  private reflector: Reflector;
+  rotors: Rotor[];
+  reflector: Reflector;
+  plugboard: Plugboard;
 
   constructor(rotors: Rotor[], reflector: Reflector, plugboard: Plugboard) {
-    if (rotors.length !== 3) {
-      throw new Error("Enigma requires exactly 3 rotors.");
-    }
     this.rotors = rotors;
     this.reflector = reflector;
     this.plugboard = plugboard;
   }
 
-  setRotorPositions(positions: number[]): void {
-    if (positions.length !== this.rotors.length) {
-      throw new Error("Positions array must match the number of rotors.");
-    }
-    positions.forEach((pos, index) => {
-      this.rotors[index].rotate_to(pos);
-    });
-  }
+  processLetter(letter: string): string {
+    // Rotate the rotors appropriately
+    this.rotateRotors();
 
-  private stepRotors(): void {
-    const rotateNext = this.rotors[0].rotate();
+    // Pass through the plugboard
+    let signal = this.plugboard.forward(letter.toUpperCase());
 
-    if (rotateNext) {
-        const rotateNext2 = this.rotors[1].rotate();
-
-        if (rotateNext2) {
-            this.rotors[2].rotate();
-        }
-    }
-}
-
-
-  encipherLetter(letter: string): string {
-    if (!/[A-Z]/.test(letter)) return letter;
-
-    let signal = this.plugboard.forward(letter);
-
-    for (const rotor of this.rotors) {
-      signal = rotor.forward(signal);
+    // Pass through the rotors forward (right to left)
+    for (let i = this.rotors.length - 1; i >= 0; i--) {
+      signal = this.rotors[i].forward(signal);
     }
 
+    // Reflect
     signal = this.reflector.reflect(signal);
 
-    for (const rotor of [...this.rotors].reverse()) {
-      signal = rotor.backward(signal);
+    // Pass back through the rotors backward (left to right)
+    for (let i = 0; i < this.rotors.length; i++) {
+      signal = this.rotors[i].backward(signal);
     }
 
+    // Pass back through the plugboard
     signal = this.plugboard.backward(signal);
 
     return signal;
   }
 
-  processMessage(message: string): string {
-    return message
-      .toUpperCase()
-      .split("")
-      .map((char) => {
-        this.stepRotors();
-        return this.encipherLetter(char);
-      })
-      .join("");
+  rotateRotors(): void {
+    const numRotors = this.rotors.length;
+
+    // Right rotor always rotates
+    const rightRotor = this.rotors[numRotors - 1];
+    const middleRotor = this.rotors[numRotors - 2];
+    const leftRotor = this.rotors[numRotors - 3];
+
+    const rightRotorAtNotchBefore = rightRotor.reached_notch();
+    rightRotor.rotate();
+    
+    if (numRotors >= 2) {
+      const middleRotorAtNotchBefore = middleRotor.reached_notch();
+      
+      if (rightRotorAtNotchBefore || middleRotorAtNotchBefore) {
+        middleRotor.rotate();
+      }
+      
+      if (numRotors >= 3 && middleRotorAtNotchBefore) {
+        this.rotors[numRotors - 3].rotate();
+      }
+    }
+    
+    console.log("rotor da direita:" + rightRotor.position)
+    console.log("rotor do meio:" + middleRotor.position);
+    console.log("rotor da esquerda:" + leftRotor.position);
+
+  }
+
+  setRotorPositions(positions: number[]): void {
+    for (let i = 0; i < positions.length; i++) {
+      this.rotors[i].rotate_to(positions[i]);
+    }
   }
 }
 

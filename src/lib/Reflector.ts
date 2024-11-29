@@ -8,12 +8,13 @@ export class Reflector {
   }
 
   reflect(letter: string): string {
-    const inLeft = this.left.indexOf(letter) !== 1;
+    console.log("entrou no refletor: " + letter)
+    const inLeft = this.left.indexOf(letter) !== -1;
 
     if (inLeft) {
       return this.right[this.left.indexOf(letter)];
     } else {
-      const inRight = this.right.indexOf(letter) !== 1;
+      const inRight = this.right.indexOf(letter) !== -1;
 
       return inRight ? this.left[this.right.indexOf(letter)] : letter;
     }

@@ -48,7 +48,10 @@ export class Plugboard {
   }
 
   forward(signal: string): string {
-    return this.connections[signal] || signal;
+    console.log("o que entrou na plugboard: " + signal);
+    var retorno = this.connections[signal] || signal;
+    console.log("o que saiu da plugboard: " + retorno);
+    return retorno;
   }
 
   backward(signal: string): string {
