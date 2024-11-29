@@ -3,8 +3,8 @@ import { Reflector } from "./Reflector";
 import Rotor from "./Rotor";
 
 class Enigma {
-  private rotors: Rotor[];
   private reflector: Reflector;
+  public rotors: Rotor[];
   public plugboard: Plugboard;
 
   constructor(rotors: Rotor[], reflector: Reflector, plugboard: Plugboard) {

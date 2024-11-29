@@ -1,24 +1,28 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import Enigma from "@/lib/Enigma";
 import { Plugboard } from "@/lib/Plugboard";
 import { Reflector } from "@/lib/Reflector";
 import Rotor from "@/lib/Rotor";
 
-// Define context type
 interface EnigmaContextType {
   enigma: Enigma;
   rotorPositions: number[];
   setPositions: (positions: number[]) => void;
+  setRotors: (rotorIndices: number[]) => void;
   selectedPlugboard: string | null;
   handlePlugboardClick: (letter: string) => void;
   plugboardConnections: Record<string, string>;
   plugboardColors: Record<string, string>;
 }
 
-// Create Enigma context
 const EnigmaContext = createContext<EnigmaContextType | undefined>(undefined);
 
-// Custom hook to use Enigma context
 export const useEnigma = () => {
   const context = useContext(EnigmaContext);
   if (!context) {
@@ -27,13 +31,20 @@ export const useEnigma = () => {
   return context;
 };
 
-// Enigma Provider component
 export const EnigmaProvider = ({ children }: { children: ReactNode }) => {
-  const rotors = [
+  const allRotors = [
     new Rotor("EKMFLGDQVZNTOWYHXUSPAIBRCJ", "Q"),
     new Rotor("AJDKSIRUXBLHWTMCQGZNPYFVOE", "E"),
     new Rotor("BDFHJLCPRTXVZNYEIWGAKMUSQO", "V"),
+    new Rotor("ESOVPZJAYQUIRHXLNFTGKDCMWB", "J"),
+    new Rotor("VZBRGITYUPSDNHLXAWMJQOFECK", "Z"),
   ];
+
+  const [selectedRotors, setSelectedRotors] = useState<Rotor[]>([
+    allRotors[0],
+    allRotors[1],
+    allRotors[2],
+  ]);
 
   const reflector = new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
   const [plugboardConnections, setPlugboardConnections] = useState<
@@ -43,16 +54,26 @@ export const EnigmaProvider = ({ children }: { children: ReactNode }) => {
     Record<string, string>
   >({});
 
-  const enigma = new Enigma(rotors, reflector, new Plugboard([]));
-
+  const [enigma, setEnigma] = useState(
+    new Enigma(selectedRotors, reflector, new Plugboard([]))
+  );
   const [rotorPositions, setRotorPositions] = useState<number[]>([0, 0, 0]);
   const [selectedPlugboard, setSelectedPlugboard] = useState<string | null>(
     null
   );
 
+  useEffect(() => {
+    setEnigma(new Enigma(selectedRotors, reflector, new Plugboard([])));
+  }, [selectedRotors]);
+
   const setPositions = (positions: number[]) => {
     setRotorPositions(positions);
     enigma.setRotorPositions(positions);
+  };
+
+  const setRotors = (rotorIndices: number[]) => {
+    const newRotors = rotorIndices.map((index) => allRotors[index]);
+    setSelectedRotors(newRotors);
   };
 
   const addConnection = (a: string, b: string) => {
@@ -87,6 +108,7 @@ export const EnigmaProvider = ({ children }: { children: ReactNode }) => {
         enigma,
         rotorPositions,
         setPositions,
+        setRotors,
         selectedPlugboard,
         handlePlugboardClick,
         plugboardConnections,
