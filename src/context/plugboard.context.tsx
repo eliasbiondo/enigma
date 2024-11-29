@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
-import { Plugboard } from "@/lib/plugboard";
+import { Plugboard } from "@/lib/Plugboard";
 
 interface PlugboardContextType {
   plugboard: Plugboard;

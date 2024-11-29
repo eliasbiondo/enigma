@@ -1,7 +1,7 @@
 "use client";
 import classNames from "classnames";
 import { PlugboardProvider } from "@/context/plugboard.context";
-import { Keyboard } from "@/lib/keyboard";
+import { Keyboard } from "@/lib/Keyboard";
 import { Plugboard } from "@/components/Plugboard";
 import PlugboardConnectionGraph from "@/components/PlugboardConnectionGraph";
 
@@ -116,7 +116,7 @@ function Keys() {
 export default function Home() {
   return (
     <PlugboardProvider>
-      <div className="w-full min-h-[100svh] bg-neutral-800 flex gap-8 justify-center items-center">
+      <div className="w-full min-h-[100svh] bg-neutral-800 flex gap-8 justify-start items-center pl-20">
         <div className="p-8 rounded-lg bg-neutral-600 flex flex-col gap-4 items-center">
           <h1>Plugboard</h1>
           <PlugboardConnectionGraph />

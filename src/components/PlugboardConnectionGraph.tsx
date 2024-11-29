@@ -6,7 +6,7 @@ export const PlugboardConnectionGraph = () => {
   const displayedConnections = new Set();
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4 min-w-60">
       {Object.entries(plugboard.connections).map(([letter, connection]) => {
         if (!displayedConnections.has(connection)) {
           displayedConnections.add(letter);
