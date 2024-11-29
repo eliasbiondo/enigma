@@ -2,6 +2,8 @@
 
 This project is a simulation of the Enigma machine, a cipher device used during World War II. The application allows users to interact with a virtual Enigma machine, providing a hands-on experience with historical cryptography.
 
+![Image](./images/Screenshot%20from%202024-11-29%2010-47-28.png)
+
 ## Features
 
 - **Rotor Configuration**: Select and configure rotors to customize the encryption process.
