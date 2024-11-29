@@ -27,8 +27,8 @@ class Rotor {
     } else {
       inputIndex = input;
     }
-    let shiftedIndex = (inputIndex + this.position) % 26;
-    let mappedChar = this.right[shiftedIndex];
+    const shiftedIndex = (inputIndex + this.position) % 26;
+    const mappedChar = this.right[shiftedIndex];
     let outputIndex = this.charToIndex(mappedChar);
     outputIndex = (outputIndex - this.position + 26) % 26;
     return this.indexToChar(outputIndex);
@@ -41,10 +41,10 @@ class Rotor {
     } else {
       inputIndex = input;
     }
-    let shiftedIndex = (inputIndex + this.position) % 26;
-    let shiftedChar = this.ALPHABET[shiftedIndex];
-    let mappedIndex = this.right.findIndex((char) => char === shiftedChar);
-    let outputIndex = (mappedIndex - this.position + 26) % 26;
+    const shiftedIndex = (inputIndex + this.position) % 26;
+    const shiftedChar = this.ALPHABET[shiftedIndex];
+    const mappedIndex = this.right.findIndex((char) => char === shiftedChar);
+    const outputIndex = (mappedIndex - this.position + 26) % 26;
     return this.indexToChar(outputIndex);
   }
 
@@ -57,7 +57,7 @@ class Rotor {
   }
 
   reached_notch(): boolean {
-    let currentLetter = this.indexToChar(this.position);
+    const currentLetter = this.indexToChar(this.position);
     return currentLetter === this.notch;
   }
 }
