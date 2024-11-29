@@ -1,4 +1,5 @@
-import { Plugboard } from "./plugboard";
+import { Plugboard } from "./Plugboard";
+import { Reflector } from "./Reflector";
 import Rotor from "./Rotor";
 
 class Enigma {
@@ -28,14 +29,13 @@ class Enigma {
     const rotateNext = this.rotors[0].rotate();
 
     if (rotateNext) {
-        const rotateNext2 = this.rotors[1].rotate();
+      const rotateNext2 = this.rotors[1].rotate();
 
-        if (rotateNext2) {
-            this.rotors[2].rotate();
-        }
+      if (rotateNext2) {
+        this.rotors[2].rotate();
+      }
     }
-}
-
+  }
 
   encipherLetter(letter: string): string {
     if (!/[A-Z]/.test(letter)) return letter;
