@@ -59,7 +59,7 @@ export class Plugboard {
   }
 
   addConnection(a: string, b: string): void {
-    if (this.connections[a] || this.connections[b]) return; // Avoid overwriting existing connections
+    if (this.connections[a] || this.connections[b]) return;
 
     this.connections[a] = b;
     this.connections[b] = a;

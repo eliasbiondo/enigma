@@ -26,12 +26,12 @@ class Enigma {
   }
 
   private stepRotors(): void {
-    const rotateNext = this.rotors[0].rotate();
+    const rotateFirst = this.rotors[0].rotate();
+    const rotateSecond = this.rotors[1].reached_notch() || rotateFirst;
 
-    if (rotateNext) {
-      const rotateNext2 = this.rotors[1].rotate();
-
-      if (rotateNext2) {
+    if (rotateSecond) {
+      this.rotors[1].rotate();
+      if (this.rotors[1].reached_notch()) {
         this.rotors[2].rotate();
       }
     }
@@ -76,7 +76,6 @@ export default Enigma;
 // const III = new Rotor('BDFHJLCPRTXVZNYEIWGAKMUSQO', 'V')
 // const IV  = new Rotor('ESOVPZJAYQUIRHXLNFTGKDCMWB', 'J')
 // const V  = new Rotor('VZBRGITYUPSDNHLXAWMJQOFECK', 'Z')
-
 
 // const B = new Reflector('YRUHQSLDPXNGOKMIEBFZCWVJAT')
 // const C = new Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
