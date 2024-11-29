@@ -33,31 +33,10 @@ const TextDisplay: React.FC<TextDisplayProps> = ({ onLampChange }) => {
       }
     };
 
-    const handlePaste = (event: ClipboardEvent) => {
-      event.preventDefault();
-      const pasteData = event.clipboardData?.getData("text") || "";
-      const filteredData = pasteData
-        .toUpperCase()
-        .split("")
-        .filter((char) => Keyboard.includes(char))
-        .join("");
-      setPlainText((prev) => prev + filteredData);
-      setCipheredText(
-        (prev) =>
-          prev +
-          filteredData
-            .split("")
-            .map((char) => enigma.processMessage(char))
-            .join("")
-      );
-    };
-
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("paste", handlePaste);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("paste", handlePaste);
     };
   }, [enigma, onLampChange]);
 
