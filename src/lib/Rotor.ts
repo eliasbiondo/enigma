@@ -48,9 +48,11 @@ class Rotor {
     return this.indexToChar(outputIndex);
   }
 
-  rotate(): void {
+  rotate(): boolean {
     this.position = (this.position + 1) % 26;
-  }
+    const currentLetter = this.indexToChar(this.position);
+    return currentLetter === this.notch;
+}
 
   rotate_to(position: number): void {
     this.position = position % 26;
