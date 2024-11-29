@@ -4,7 +4,7 @@ import Rotor from "./Rotor";
 
 class Enigma {
   private rotors: Rotor[];
-  private plugboard: Plugboard;
+  public plugboard: Plugboard;
   private reflector: Reflector;
 
   constructor(rotors: Rotor[], reflector: Reflector, plugboard: Plugboard) {
