@@ -1,5 +1,5 @@
 import { usePlugboard } from "@/context/plugboard.context";
-import { Keyboard } from "@/lib/keyboard";
+import { Keyboard } from "@/lib/Keyboard";
 
 interface PlugboardKeyProps {
   letter: string;
