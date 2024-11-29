@@ -1,6 +1,6 @@
 import { Plugboard } from "./Plugboard";
 import { Reflector } from "./Reflector";
-import Rotor from "./Rotor";
+import { Rotor } from "./Rotor";
 
 class Enigma {
   private reflector: Reflector;
@@ -70,3 +70,22 @@ class Enigma {
 }
 
 export default Enigma;
+
+// const I   = new Rotor('EKMFLGDQVZNTOWYHXUSPAIBRCJ','Q')
+// const II  = new Rotor('AJDKSIRUXBLHWTMCQGZNPYFVOE', 'E')
+// const III = new Rotor('BDFHJLCPRTXVZNYEIWGAKMUSQO', 'V')
+// const IV  = new Rotor('ESOVPZJAYQUIRHXLNFTGKDCMWB', 'J')
+// const V  = new Rotor('VZBRGITYUPSDNHLXAWMJQOFECK', 'Z')
+
+
+// const B = new Reflector('YRUHQSLDPXNGOKMIEBFZCWVJAT')
+// const C = new Reflector('FVPJIAOYEDRZXWGCTKUQSBNMHL')
+// const pb = new Plugboard(['AR', 'GK', 'OX'])
+// const enigma = new Enigma(B, I, II, III, pb)
+// enigma.setRotors([1, 2, 3])
+// const original = 'TESTANDO'
+// let criptografado = ''
+
+// for (let c of original){
+//    criptografado += enigma.encipher(c)
+// }
