@@ -29,7 +29,7 @@ const TextDisplay: React.FC<TextDisplayProps> = ({ onLampChange }) => {
         setCipheredText((prev) => prev + cipheredChar);
         onLampChange(cipheredChar);
 
-        setTimeout(() => onLampChange(null), 500);
+        setTimeout(() => onLampChange(null), 700);
       }
     };
 
