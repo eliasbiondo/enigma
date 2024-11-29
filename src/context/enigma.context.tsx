@@ -63,8 +63,11 @@ export const EnigmaProvider = ({ children }: { children: ReactNode }) => {
   );
 
   useEffect(() => {
-    setEnigma(new Enigma(selectedRotors, reflector, new Plugboard([])));
-  }, [selectedRotors]);
+    const plugboard = new Plugboard(
+      Object.entries(plugboardConnections).map(([a, b]) => a + b)
+    );
+    setEnigma(new Enigma(selectedRotors, reflector, plugboard));
+  }, [selectedRotors, plugboardConnections]);
 
   const setPositions = (positions: number[]) => {
     setRotorPositions(positions);
