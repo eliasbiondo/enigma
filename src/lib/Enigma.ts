@@ -1,6 +1,6 @@
 import { Plugboard } from "./Plugboard";
 import { Reflector } from "./Reflector";
-import Rotor from "./Rotor";
+import { Rotor } from "./Rotor";
 
 class Enigma {
   private rotors: Rotor[];

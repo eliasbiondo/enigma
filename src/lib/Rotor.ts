@@ -1,4 +1,4 @@
-class Rotor {
+export class Rotor {
   ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   left: string[];
   right: string[];
