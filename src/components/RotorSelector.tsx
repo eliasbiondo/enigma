@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { useEnigma } from "@/context/enigma.context";
 import {
